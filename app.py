@@ -109,3 +109,65 @@ if st.button("Calcular Resultado"):
     df_sensibilidad_conv_adpv = generar_sensibilidad_conversion_adpv(kg_comprados, adpv, conversion_ms, dias, rendimiento, costo_kg_dieta, precio_kg_comprado, precio_venta)
     df_coloreado_conv_adpv = df_sensibilidad_conv_adpv.style.map(colorear_celda)
     st.dataframe(df_coloreado_conv_adpv)
+    # =========================
+    # KPIs FINALES (SIN MODIFICAR FUNCIONES)
+    # =========================
+
+    # Recalculamos acá (simple y seguro)
+    kg_ganados = adpv * dias
+
+    if kg_ganados > 0:
+        costo_kg_producido = (costo_alimentacion_total + gasto_estructura_estadia) / kg_ganados
+    else:
+        costo_kg_producido = 0
+
+    precio_kg_producido = precio_venta * (rendimiento / 100)
+    margen_kg_producido = precio_kg_producido - costo_kg_producido
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # Fila: costo y precio
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown(
+            f"""
+            <div style='text-align: center;'>
+                <div style='font-size:18px; color:gray;'>Costo Kg Producido</div>
+                <div style='font-size:36px; font-weight:bold; color:#2E8B57;'>
+                    USD {costo_kg_producido:.2f}
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with col2:
+        st.markdown(
+            f"""
+            <div style='text-align: center;'>
+                <div style='font-size:18px; color:gray;'>Precio Kg Producido</div>
+                <div style='font-size:36px; font-weight:bold; color:#1f77b4;'>
+                    USD {precio_kg_producido:.2f}
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    # Margen grande
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    color_margen = "#2E8B57" if margen_kg_producido > 0 else "#d00000"
+
+    st.markdown(
+        f"""
+        <div style='text-align: center;'>
+            <div style='font-size:22px; color:#666;'>MARGEN KG PRODUCIDO</div>
+            <div style='font-size:60px; font-weight:bold; color:{color_margen};'>
+                USD {margen_kg_producido:.2f}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
