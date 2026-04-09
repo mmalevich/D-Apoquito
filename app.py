@@ -101,11 +101,11 @@ if st.button("Calcular Resultado"):
     # Generar análisis de sensibilidad precios
     st.subheader("Análisis de Sensibilidad: Resultado Total según Precios de Compra y Venta")
     df_sensibilidad_precios = generar_sensibilidad_precios(kg_comprados, adpv, conversion_ms, dias, rendimiento, costo_kg_dieta, precio_kg_comprado, precio_venta)
-    df_coloreado_precios = df_sensibilidad_precios.style.applymap(colorear_celda)
+    df_coloreado_precios = df_sensibilidad_precios.style.map(colorear_celda)
     st.dataframe(df_coloreado_precios)
     
     # Generar análisis de sensibilidad conversión y ADPV
     st.subheader("Análisis de Sensibilidad: Resultado Total según Conversión MS y ADPV")
     df_sensibilidad_conv_adpv = generar_sensibilidad_conversion_adpv(kg_comprados, adpv, conversion_ms, dias, rendimiento, costo_kg_dieta, precio_kg_comprado, precio_venta)
-    df_coloreado_conv_adpv = df_sensibilidad_conv_adpv.style.applymap(colorear_celda)
+    df_coloreado_conv_adpv = df_sensibilidad_conv_adpv.style.map(colorear_celda)
     st.dataframe(df_coloreado_conv_adpv)
